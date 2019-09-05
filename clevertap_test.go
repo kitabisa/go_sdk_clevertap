@@ -25,7 +25,7 @@ const (
 )
 
 func TestSendEvent(t *testing.T) {
-	clevertapBuilder := ClevertapBuilder{}
+	clevertapBuilder := &ClevertapBuilder{}
 	service := &CleverTapService{}
 
 	ok := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
