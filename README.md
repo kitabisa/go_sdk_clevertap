@@ -11,7 +11,7 @@ import (
     "net/url"
     "net/http"
     "time"
-    "github.com/kitabisa/go-sdk-clevertap"
+    "github.com/kitabisa/go_sdk_clevertap"
 )
 
 const (
