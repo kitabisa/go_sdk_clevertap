@@ -50,6 +50,11 @@ func main() {
 }
 ```
 
+## Test & Benchmark
+```bash
+go test ./... -bench=.
+```
+
 ## Installation
 ```bash
 go get -u github.com/kitabisa/go_sdk_clevertap
