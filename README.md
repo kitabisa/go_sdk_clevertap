@@ -25,7 +25,7 @@ const (
 )
 
 func main() {
-	clevertapBuilder := ClevertapBuilder{}
+	clevertapBuilder := &ClevertapBuilder{}
 	service := &CleverTapService{}
 
 	httpClient := &http.Client{
