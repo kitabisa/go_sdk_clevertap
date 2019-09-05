@@ -8,10 +8,10 @@ Based on `https://developer.clevertap.com/docs/upload-events-api`
 package test
 
 import (
+    "net/url"
+    "net/http"
+    "time"
     "github.com/kitabisa/go-sdk-clevertap"
-	"net/url"
-	"net/http"
-	"time"
 )
 
 const (
