@@ -6,7 +6,7 @@ import (
 )
 
 type ClevertapBuilder struct {
-	option ClevertapOptions
+	option  ClevertapOptions
 	builder BuildClevertap
 }
 
@@ -30,7 +30,7 @@ func (c *ClevertapBuilder) SetPasscode(passcode string) {
 	c.option.Passcode = passcode
 }
 
-func (c *ClevertapBuilder) Build() (BuildClevertap) {
+func (c *ClevertapBuilder) Build() BuildClevertap {
 	c.builder.SetOptions(c.option)
 	return c.builder
 }

@@ -8,8 +8,8 @@ import (
 type ClevertapOptions struct {
 	httpClient *http.Client
 	baseURL    *url.URL
-	AccountID    string
-	Passcode    string
+	AccountID  string
+	Passcode   string
 }
 
 type CleverTapSendEventRequest struct {

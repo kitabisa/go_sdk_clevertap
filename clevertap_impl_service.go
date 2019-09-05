@@ -22,7 +22,7 @@ func (c *CleverTapService) SetOptions(clevertapOptions ClevertapOptions) BuildCl
 
 func (c *CleverTapService) SendEvent(identity string, evtName string, evtData map[string]interface{}) error {
 	sendEventReq := []CleverTapSendEventRequest{
-		CleverTapSendEventRequest {
+		CleverTapSendEventRequest{
 			Identity:  identity,
 			EventName: evtName,
 			Type:      EVENT,

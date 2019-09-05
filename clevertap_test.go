@@ -11,10 +11,10 @@ import (
 )
 
 const (
-	cleverTapUrl = "https://api.clevertap.com"
-	accountId = "TEST-000-000-000"
-	passcode = "AAA-AAA-AAA"
-	testIdentity = "eko@kitabisa.com"
+	cleverTapUrl  = "https://api.clevertap.com"
+	accountId     = "TEST-000-000-000"
+	passcode      = "AAA-AAA-AAA"
+	testIdentity  = "eko@kitabisa.com"
 	testEventName = "Golang SDK Test Event"
 
 	okResponse = `{
