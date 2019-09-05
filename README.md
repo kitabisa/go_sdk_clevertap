@@ -1,9 +1,11 @@
 # Go SDK Clevertap
 Golang SDK for Clevertap
 
-## Upload Event API
+## Features
+### Upload Event API
 Based on `https://developer.clevertap.com/docs/upload-events-api`
 
+#### Example
 ```go
 package test
 
@@ -47,3 +49,12 @@ func main() {
 	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData)
 }
 ```
+
+## Installation
+```bash
+go get -u github.com/kitabisa/go_sdk_clevertap
+```
+
+
+## License
+MIT License
