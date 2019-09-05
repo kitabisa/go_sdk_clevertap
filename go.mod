@@ -1,5 +1,3 @@
-module github.com/kitabisa/go-sdk-clevertap
+module github.com/kitabisa/go_sdk_clevertap
 
 go 1.11
-
-require github.com/stretchr/testify v1.4.0

@@ -83,5 +83,7 @@ func (c *CleverTapService) do(req *http.Request, v interface{}) (*http.Response,
 	}
 
 	err = json.NewDecoder(resp.Body).Decode(v)
+	x, err := ioutil.ReadAll(resp.Body)
+	log.Printf("%v", x)
 	return resp, err
 }
