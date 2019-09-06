@@ -25,7 +25,7 @@ const (
 )
 
 func TestSendEvent(t *testing.T) {
-	clevertapBuilder := ClevertapBuilder{}
+	clevertapBuilder := &ClevertapBuilder{}
 	service := &CleverTapService{}
 
 	ok := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -50,6 +50,34 @@ func TestSendEvent(t *testing.T) {
 	eventData["social_media_id"] = "11111"
 
 	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData)
+}
+
+func BenchmarkSendEvent(b *testing.B) {
+	ok := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		_, _ = w.Write([]byte(okResponse))
+	})
+
+	httpClient, teardown := testingHTTPClient(ok)
+	defer teardown()
+
+	for n := 0; n < b.N; n++ {
+		clevertapBuilder := &ClevertapBuilder{}
+		service := &CleverTapService{}
+		baseUrl, _ := url.Parse(cleverTapUrl)
+
+		clevertapBuilder.SetBuilder(service)
+		clevertapBuilder.SetHttpClient(httpClient)
+		clevertapBuilder.SetBaseURL(baseUrl)
+		clevertapBuilder.SetAccountID(accountId)
+		clevertapBuilder.SetPasscode(passcode)
+		cleverTap := clevertapBuilder.Build()
+
+		eventData := make(map[string]interface{})
+		eventData["full_name"] = "Test Name1"
+		eventData["user_id_type"] = "email"
+		eventData["social_media_id"] = "11111"
+		_ = cleverTap.SendEvent(testIdentity, testEventName, eventData)
+	}
 }
 
 func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
