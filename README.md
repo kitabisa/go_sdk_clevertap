@@ -46,7 +46,9 @@ func main() {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData)
+	cleverTapResponse := &CleverTapResponse{}
+
+	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
 }
 ```
 
