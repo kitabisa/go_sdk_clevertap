@@ -17,38 +17,38 @@ import (
 	"time"
 )
 const (
-	cleverTapUrl = "https://api.clevertap.com"
-	accountId = "TEST-000-000-000"
+	cleverTapURL = "https://api.clevertap.com"
+	accountID = "TEST-000-000-000"
 	passcode = "AAA-AAA-AAA"
 	testIdentity = "your@email.com"
 	testEventName = "Golang SDK Test Event"
 )
 
 func main()  {
-	clevertapBuilder := &go_sdk_clevertap.ClevertapBuilder{}
-	service := &go_sdk_clevertap.CleverTapService{}
+	clevertapBuilder := &clevertap.Builder{}
+	service := &clevertap.Service{}
 
 	httpClient := &http.Client{
 		Timeout: 5 * time.Second,
 	}
 
-	baseUrl, _ := url.Parse(cleverTapUrl)
+	baseUrl, _ := url.Parse(cleverTapURL)
 
 	clevertapBuilder.SetBuilder(service)
-	clevertapBuilder.SetHttpClient(httpClient)
+	clevertapBuilder.SetHTTPClient(httpClient)
 	clevertapBuilder.SetBaseURL(baseUrl)
-	clevertapBuilder.SetAccountID(accountId)
+	clevertapBuilder.SetAccountID(accountID)
 	clevertapBuilder.SetPasscode(passcode)
-	cleverTap := clevertapBuilder.Build()
+	ct := clevertapBuilder.Build()
 
 	eventData := make(map[string]interface{})
 	eventData["full_name"] = "Test Name1"
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &go_sdk_clevertap.CleverTapResponse{}
+	cleverTapResponse := &clevertap.Response{}
 
-	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
+	_ = ct.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
 
 	fmt.Printf("%v", cleverTapResponse)
 }

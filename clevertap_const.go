@@ -1,11 +1,24 @@
-package go_sdk_clevertap
+package clevertap
 
 const (
-	CLEVERTAP_SEND_EVENT_URL      = "/1/upload"
-	EVENT                         = "event"
-	POST                          = "POST"
-	CONTENT_TYPE                  = "Content-Type"
-	APPLICATION_JSON_CHARSET_UTF8 = "application/json; charset=utf-8"
-	X_CLEVERTAP_ACCOUNT_ID        = "X-CleverTap-Account-Id"
-	X_CLEVERTAP_PASSCODE          = "X-CleverTap-Passcode"
+	// ClevertapSendEventURL ..
+	ClevertapSendEventURL      = "/1/upload"
+
+	// Event ...
+	Event                      = "event"
+
+	// Post ...
+	Post                       = "Post"
+
+	// ContentType ...
+	ContentType                = "Content-Type"
+
+	// ApplicationJSONCharsetUtf8 ...
+	ApplicationJSONCharsetUtf8 = "application/json; charset=utf-8"
+
+	// XClevertapAccountID ...
+	XClevertapAccountID = "X-CleverTap-Account-Id"
+
+	// XClevertapPasscode ...
+	XClevertapPasscode         = "X-CleverTap-Passcode"
 )

@@ -1,4 +1,4 @@
-package go_sdk_clevertap
+package clevertap
 
 import (
 	"bytes"
@@ -10,21 +10,23 @@ import (
 	"time"
 )
 
-type CleverTapService struct {
-	cO ClevertapOptions
+// Service ...
+type Service struct {
+	cO Options
 }
 
-func (c *CleverTapService) setOptions(clevertapOptions ClevertapOptions) BuildClevertap {
+func (c *Service) setOptions(clevertapOptions Options) BuildClevertap {
 	c.cO = clevertapOptions
 	return c
 }
 
-func (c *CleverTapService) SendEvent(identity string, evtName string, evtData map[string]interface{}, responseInterface interface{}) error {
-	sendEventReq := []CleverTapSendEventRequest{
+// SendEvent ...
+func (c *Service) SendEvent(identity string, evtName string, evtData map[string]interface{}, responseInterface interface{}) error {
+	sendEventReq := []SendEventRequest{
 		{
 			Identity:  identity,
 			EventName: evtName,
-			Type:      EVENT,
+			Type:      Event,
 			Timestamp: time.Now().Unix(),
 			EventData: evtData,
 		},
@@ -33,7 +35,7 @@ func (c *CleverTapService) SendEvent(identity string, evtName string, evtData ma
 	payload := make(map[string]interface{})
 	payload["d"] = sendEventReq
 
-	if req, err := c.newRequest(POST, CLEVERTAP_SEND_EVENT_URL, payload); err != nil {
+	if req, err := c.newRequest(Post, ClevertapSendEventURL, payload); err != nil {
 		return err
 	} else if _, err = c.do(req, responseInterface); err != nil {
 		return err
@@ -42,7 +44,7 @@ func (c *CleverTapService) SendEvent(identity string, evtName string, evtData ma
 	return nil
 }
 
-func (c *CleverTapService) newRequest(method, path string, body interface{}) (*http.Request, error) {
+func (c *Service) newRequest(method, path string, body interface{}) (*http.Request, error) {
 	rel := &url.URL{Path: path}
 	u := c.cO.baseURL.ResolveReference(rel)
 	var buf io.ReadWriter
@@ -57,14 +59,14 @@ func (c *CleverTapService) newRequest(method, path string, body interface{}) (*h
 	if req, err := http.NewRequest(method, u.String(), buf); err != nil {
 		return nil, err
 	} else {
-		req.Header.Set(CONTENT_TYPE, APPLICATION_JSON_CHARSET_UTF8)
-		req.Header.Set(X_CLEVERTAP_ACCOUNT_ID, c.cO.AccountID)
-		req.Header.Set(X_CLEVERTAP_PASSCODE, c.cO.Passcode)
+		req.Header.Set(ContentType, ApplicationJSONCharsetUtf8)
+		req.Header.Set(XClevertapAccountID, c.cO.AccountID)
+		req.Header.Set(XClevertapPasscode, c.cO.Passcode)
 		return req, nil
 	}
 }
 
-func (c *CleverTapService) do(req *http.Request, v interface{}) (*http.Response, error) {
+func (c *Service) do(req *http.Request, v interface{}) (*http.Response, error) {
 	if resp, err := c.cO.httpClient.Do(req); err != nil {
 		return nil, err
 	} else {

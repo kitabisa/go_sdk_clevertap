@@ -1,4 +1,4 @@
-package go_sdk_clevertap
+package clevertap
 
 import (
 	"context"
@@ -13,21 +13,20 @@ import (
 )
 
 const (
-	cleverTapUrl  = "https://api.clevertap.com"
-	accountId     = "TEST-000-000-000"
+	cleverTapURL  = "https://api.clevertap.com"
+	accountID     = "TEST-000-000-000"
 	passcode      = "AAA-AAA-AAA"
 	testIdentity  = "eko@kitabisa.com"
 	testEventName = "Golang SDK Test Event"
-
 )
 
 var okResponse = make([]string, 0)
 var unauthorizedResponse = make([]string, 0)
-var nonJsonResponse = make([]string, 0)
+var nonJSONResponse = make([]string, 0)
 
 func init() {
 	ok := [...]string{
-`{
+		`{
 	"status": "success",
 	"processed": 1,
 	"unprocessed": []
@@ -37,17 +36,17 @@ func init() {
 	okResponse = ok[:]
 
 	unauthorized := [...]string{
-`{
+		`{
 			"status": "fail",
 			"error": "12 digit account ID mandatory",
 			"code": 401
 }`,
-`{
+		`{
     "status": "fail",
     "error": "Account ID is not valid",
     "code": 401
 }`,
-`{
+		`{
     "status": "fail",
     "error": "Passcode Invalid",
     "code": 401
@@ -56,22 +55,22 @@ func init() {
 
 	unauthorizedResponse = unauthorized[:]
 
-	nonJson := [...]string{
+	nonJSON := [...]string{
 		`{ hello world`,
 	}
 
-	nonJsonResponse = nonJson[:]
+	nonJSONResponse = nonJSON[:]
 }
 
-func setCleverTapBuild(httpClient *http.Client) (BuildClevertap)  {
-	clevertapBuilder := &ClevertapBuilder{}
-	service := &CleverTapService{}
-	baseUrl, _ := url.Parse(cleverTapUrl)
+func setCleverTapBuild(httpClient *http.Client) BuildClevertap {
+	clevertapBuilder := &Builder{}
+	service := &Service{}
+	baseURL, _ := url.Parse(cleverTapURL)
 
 	clevertapBuilder.SetBuilder(service)
-	clevertapBuilder.SetHttpClient(httpClient)
-	clevertapBuilder.SetBaseURL(baseUrl)
-	clevertapBuilder.SetAccountID(accountId)
+	clevertapBuilder.SetHTTPClient(httpClient)
+	clevertapBuilder.SetBaseURL(baseURL)
+	clevertapBuilder.SetAccountID(accountID)
 	clevertapBuilder.SetPasscode(passcode)
 
 	return clevertapBuilder.Build()
@@ -88,7 +87,7 @@ func TestSendEvent(t *testing.T) {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &CleverTapResponse{}
+	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
 		t.Errorf("Fail [%v]", err)
@@ -108,7 +107,7 @@ func TestSendEventUnauthorized(t *testing.T) {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &CleverTapResponse{}
+	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil || cleverTapResponse.Status != "fail" {
 		t.Errorf("Fail Got error : [%v] or status : [%s]", err, cleverTapResponse.Status)
@@ -118,7 +117,7 @@ func TestSendEventUnauthorized(t *testing.T) {
 }
 
 func TestSendEventGotNonJsonResponse(t *testing.T) {
-	handler := anyHandler(nonJsonResponse, 500)
+	handler := anyHandler(nonJSONResponse, 500)
 	httpClient, teardown := testingHTTPClient(handler)
 	defer teardown()
 	cleverTap := setCleverTapBuild(httpClient)
@@ -128,7 +127,7 @@ func TestSendEventGotNonJsonResponse(t *testing.T) {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &CleverTapResponse{}
+	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
 		t.Logf("ok, Expected Error [%v]", err)
@@ -148,7 +147,7 @@ func TestSendEventErrorTimeout(t *testing.T) {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &CleverTapResponse{}
+	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
 		t.Logf("ok, Expected Error [%v]", err)
@@ -169,7 +168,7 @@ func BenchmarkSendEvent(b *testing.B) {
 		eventData["user_id_type"] = "email"
 		eventData["social_media_id"] = "11111"
 
-		cleverTapResponse := &CleverTapResponse{}
+		cleverTapResponse := &Response{}
 		_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
 	}
 }

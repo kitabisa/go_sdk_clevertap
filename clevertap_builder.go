@@ -1,36 +1,43 @@
-package go_sdk_clevertap
+package clevertap
 
 import (
 	"net/http"
 	"net/url"
 )
 
-type ClevertapBuilder struct {
-	option  ClevertapOptions
+// Builder ...
+type Builder struct {
+	option  Options
 	builder BuildClevertap
 }
 
-func (c *ClevertapBuilder) SetBuilder(b BuildClevertap) {
+// SetBuilder ...
+func (c *Builder) SetBuilder(b BuildClevertap) {
 	c.builder = b
 }
 
-func (c *ClevertapBuilder) SetHttpClient(httpClient *http.Client) {
+// SetHTTPClient ...
+func (c *Builder) SetHTTPClient(httpClient *http.Client) {
 	c.option.httpClient = httpClient
 }
 
-func (c *ClevertapBuilder) SetBaseURL(baseURL *url.URL) {
+// SetBaseURL ...
+func (c *Builder) SetBaseURL(baseURL *url.URL) {
 	c.option.baseURL = baseURL
 }
 
-func (c *ClevertapBuilder) SetAccountID(accountId string) {
-	c.option.AccountID = accountId
+// SetAccountID ...
+func (c *Builder) SetAccountID(accountID string) {
+	c.option.AccountID = accountID
 }
 
-func (c *ClevertapBuilder) SetPasscode(passcode string) {
+// SetPasscode ...
+func (c *Builder) SetPasscode(passcode string) {
 	c.option.Passcode = passcode
 }
 
-func (c *ClevertapBuilder) Build() BuildClevertap {
+// Build ...
+func (c *Builder) Build() BuildClevertap {
 	c.builder.setOptions(c.option)
 	return c.builder
 }

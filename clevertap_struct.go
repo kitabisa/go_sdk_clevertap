@@ -1,18 +1,20 @@
-package go_sdk_clevertap
+package clevertap
 
 import (
 	"net/http"
 	"net/url"
 )
 
-type ClevertapOptions struct {
+// Options ...
+type Options struct {
 	httpClient *http.Client
 	baseURL    *url.URL
 	AccountID  string
 	Passcode   string
 }
 
-type CleverTapSendEventRequest struct {
+// SendEventRequest ...
+type SendEventRequest struct {
 	Identity  string                 `json:"identity"`
 	Type      string                 `json:"type"`
 	Timestamp int64                  `json:"ts"`
@@ -20,8 +22,9 @@ type CleverTapSendEventRequest struct {
 	EventData map[string]interface{} `json:"evtData"`
 }
 
-type CleverTapResponse struct {
-	Status      string `json:"status"`
-	Processed   int    `json:"processed"`
+// Response ...
+type Response struct {
+	Status      string        `json:"status"`
+	Processed   int           `json:"processed"`
 	Unprocessed []interface{} `json:"unprocessed"`
 }
