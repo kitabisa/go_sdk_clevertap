@@ -137,6 +137,26 @@ func TestSendEventGotNonJsonResponse(t *testing.T) {
 	}
 }
 
+func TestSendEventErrorTimeout(t *testing.T) {
+	handler := timeoutHandler()
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	eventData := make(map[string]interface{})
+	eventData["full_name"] = "Test Name1"
+	eventData["user_id_type"] = "email"
+	eventData["social_media_id"] = "11111"
+
+	cleverTapResponse := &CleverTapResponse{}
+
+	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
+		t.Logf("ok, Expected Error [%v]", err)
+	} else {
+		t.Error("Fail, Expected error not found")
+	}
+}
+
 func BenchmarkSendEvent(b *testing.B) {
 	handler := anyHandler(okResponse, 200)
 	httpClient, teardown := testingHTTPClient(handler)
@@ -165,6 +185,7 @@ func testingHTTPClient(handler http.Handler) (*http.Client, func()) {
 				InsecureSkipVerify: true,
 			},
 		},
+		Timeout: 1000 * time.Millisecond,
 	}
 
 	return cli, s.Close
@@ -176,5 +197,12 @@ func anyHandler(bodyResponse []string, httpStatus int) (handler http.Handler) {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(httpStatus)
 		_, _ = w.Write([]byte(body))
+	})
+}
+
+func timeoutHandler() (handler http.Handler) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		time.Sleep(2 * time.Second)
+		w.WriteHeader(http.StatusGatewayTimeout)
 	})
 }
