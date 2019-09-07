@@ -1,6 +1,11 @@
 # Go SDK Clevertap
 Golang SDK for Clevertap
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/kitabisa/go_sdk_clevertap?style=flat-square)](https://goreportcard.com/report/github.com/kitabisa/go_sdk_clevertap)
+[![Build Status](http://img.shields.io/travis/kitabisa/go_sdk_clevertap.svg?style=flat-square)](https://travis-ci.org/kitabisa/go_sdk_clevertap)
+[![Codecov](https://img.shields.io/codecov/c/github/kitabisa/go_sdk_clevertap.svg?style=flat-square)](https://codecov.io/gh/kitabisa/go_sdk_clevertap)
+[![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kitabisa/go_sdk_clevertap/master/LICENSE)
+
 ## Features
 ### Upload Event API
 Based on `https://developer.clevertap.com/docs/upload-events-api`
