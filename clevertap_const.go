@@ -2,16 +2,16 @@ package clevertap
 
 const (
 	// ClevertapSendEventURL ..
-	ClevertapSendEventURL      = "/1/upload"
+	ClevertapSendEventURL = "/1/upload"
 
 	// Event ...
-	Event                      = "event"
+	Event = "event"
 
 	// Post ...
-	Post                       = "Post"
+	Post = "Post"
 
 	// ContentType ...
-	ContentType                = "Content-Type"
+	ContentType = "Content-Type"
 
 	// ApplicationJSONCharsetUtf8 ...
 	ApplicationJSONCharsetUtf8 = "application/json; charset=utf-8"
@@ -20,5 +20,5 @@ const (
 	XClevertapAccountID = "X-CleverTap-Account-Id"
 
 	// XClevertapPasscode ...
-	XClevertapPasscode         = "X-CleverTap-Passcode"
+	XClevertapPasscode = "X-CleverTap-Passcode"
 )
