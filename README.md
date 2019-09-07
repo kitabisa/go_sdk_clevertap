@@ -48,9 +48,9 @@ func main()  {
 
 	cleverTapResponse := &clevertap.Response{}
 
-	_ = ct.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
+	err := ct.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
 
-	fmt.Printf("%v", cleverTapResponse)
+	fmt.Printf("%v - %v", *cleverTapResponse, err)
 }
 ```
 
