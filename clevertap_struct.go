@@ -23,5 +23,5 @@ type CleverTapSendEventRequest struct {
 type CleverTapResponse struct {
 	Status      string `json:"status"`
 	Processed   int    `json:"processed"`
-	Unprocessed string `json:"unprocessed"`
+	Unprocessed []interface{} `json:"unprocessed"`
 }

@@ -31,6 +31,6 @@ func (c *ClevertapBuilder) SetPasscode(passcode string) {
 }
 
 func (c *ClevertapBuilder) Build() BuildClevertap {
-	c.builder.SetOptions(c.option)
+	c.builder.setOptions(c.option)
 	return c.builder
 }
