@@ -54,9 +54,9 @@ func main()  {
 }
 ```
 
-## Test & Benchmark
+## Test, Code Coverage & Benchmark
 ```bash
-go test ./... -bench=.
+go test -v -cover ./... -bench=.
 ```
 
 ## Installation
