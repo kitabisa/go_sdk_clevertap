@@ -7,15 +7,15 @@ Based on `https://developer.clevertap.com/docs/upload-events-api`
 
 #### Example
 ```go
-package test
+package main
 
 import (
-    "net/url"
-    "net/http"
-    "time"
-    "github.com/kitabisa/go_sdk_clevertap"
+	"fmt"
+	"github.com/kitabisa/go_sdk_clevertap"
+	"net/http"
+	"net/url"
+	"time"
 )
-
 const (
 	cleverTapUrl = "https://api.clevertap.com"
 	accountId = "TEST-000-000-000"
@@ -24,9 +24,9 @@ const (
 	testEventName = "Golang SDK Test Event"
 )
 
-func main() {
-	clevertapBuilder := &ClevertapBuilder{}
-	service := &CleverTapService{}
+func main()  {
+	clevertapBuilder := &go_sdk_clevertap.ClevertapBuilder{}
+	service := &go_sdk_clevertap.CleverTapService{}
 
 	httpClient := &http.Client{
 		Timeout: 5 * time.Second,
@@ -46,9 +46,11 @@ func main() {
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
 
-	cleverTapResponse := &CleverTapResponse{}
+	cleverTapResponse := &go_sdk_clevertap.CleverTapResponse{}
 
 	_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
+
+	fmt.Printf("%v", cleverTapResponse)
 }
 ```
 
