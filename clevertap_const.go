@@ -8,7 +8,7 @@ const (
 	Event = "event"
 
 	// Post ...
-	Post = "Post"
+	Post = "POST"
 
 	// ContentType ...
 	ContentType = "Content-Type"
