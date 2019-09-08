@@ -23,6 +23,7 @@ const (
 var okResponse = make([]string, 0)
 var unauthorizedResponse = make([]string, 0)
 var nonJSONResponse = make([]string, 0)
+var eventData = make(map[string]interface{})
 
 func init() {
 	ok := [...]string{
@@ -60,6 +61,10 @@ func init() {
 	}
 
 	nonJSONResponse = nonJSON[:]
+
+	eventData["full_name"] = "Test Name1"
+	eventData["user_id_type"] = "email"
+	eventData["social_media_id"] = "11111"
 }
 
 func setCleverTapBuild(httpClient *http.Client) BuildClevertap {
@@ -81,12 +86,6 @@ func TestSendEvent(t *testing.T) {
 	httpClient, teardown := testingHTTPClient(handler)
 	defer teardown()
 	cleverTap := setCleverTapBuild(httpClient)
-
-	eventData := make(map[string]interface{})
-	eventData["full_name"] = "Test Name1"
-	eventData["user_id_type"] = "email"
-	eventData["social_media_id"] = "11111"
-
 	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
@@ -101,12 +100,6 @@ func TestSendEventUnauthorized(t *testing.T) {
 	httpClient, teardown := testingHTTPClient(handler)
 	defer teardown()
 	cleverTap := setCleverTapBuild(httpClient)
-
-	eventData := make(map[string]interface{})
-	eventData["full_name"] = "Test Name1"
-	eventData["user_id_type"] = "email"
-	eventData["social_media_id"] = "11111"
-
 	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil || cleverTapResponse.Status != "fail" {
@@ -121,12 +114,6 @@ func TestSendEventGotNonJsonResponse(t *testing.T) {
 	httpClient, teardown := testingHTTPClient(handler)
 	defer teardown()
 	cleverTap := setCleverTapBuild(httpClient)
-
-	eventData := make(map[string]interface{})
-	eventData["full_name"] = "Test Name1"
-	eventData["user_id_type"] = "email"
-	eventData["social_media_id"] = "11111"
-
 	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
@@ -141,12 +128,6 @@ func TestSendEventErrorTimeout(t *testing.T) {
 	httpClient, teardown := testingHTTPClient(handler)
 	defer teardown()
 	cleverTap := setCleverTapBuild(httpClient)
-
-	eventData := make(map[string]interface{})
-	eventData["full_name"] = "Test Name1"
-	eventData["user_id_type"] = "email"
-	eventData["social_media_id"] = "11111"
-
 	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil {
@@ -163,11 +144,6 @@ func BenchmarkSendEvent(b *testing.B) {
 	cleverTap := setCleverTapBuild(httpClient)
 
 	for n := 0; n < b.N; n++ {
-		eventData := make(map[string]interface{})
-		eventData["full_name"] = "Test Name1"
-		eventData["user_id_type"] = "email"
-		eventData["social_media_id"] = "11111"
-
 		cleverTapResponse := &Response{}
 		_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
 	}
