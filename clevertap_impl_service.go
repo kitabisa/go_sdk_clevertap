@@ -35,7 +35,7 @@ func (c *Service) SendEvent(identity string, evtName string, evtData map[string]
 	payload := make(map[string]interface{})
 	payload["d"] = sendEventReq
 
-	if req, err := c.newRequest(Post, ClevertapSendEventURL, payload); err != nil {
+	if req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload); err != nil {
 		return err
 	} else if _, err = c.do(req, responseInterface); err != nil {
 		return err
