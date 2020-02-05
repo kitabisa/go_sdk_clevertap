@@ -4,6 +4,7 @@ Golang SDK for Clevertap
 [![Go Report Card](https://goreportcard.com/badge/github.com/kitabisa/go_sdk_clevertap?style=flat-square)](https://goreportcard.com/report/github.com/kitabisa/go_sdk_clevertap)
 [![Build Status](http://img.shields.io/travis/kitabisa/go_sdk_clevertap.svg?style=flat-square)](https://travis-ci.org/kitabisa/go_sdk_clevertap)
 [![Codecov](https://img.shields.io/codecov/c/github/kitabisa/go_sdk_clevertap.svg?style=flat-square)](https://codecov.io/gh/kitabisa/go_sdk_clevertap)
+[![Maintainability](https://api.codeclimate.com/v1/badges/9d35afa5f60a03fdee63/maintainability)](https://codeclimate.com/github/kitabisa/go_sdk_clevertap/maintainability)
 [![License](http://img.shields.io/badge/license-mit-blue.svg?style=flat-square)](https://raw.githubusercontent.com/kitabisa/go_sdk_clevertap/master/LICENSE)
 
 ## Features
