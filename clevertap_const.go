@@ -5,7 +5,8 @@ const (
 	ClevertapSendEventURL = "/1/upload"
 
 	// Event ...
-	Event = "event"
+	Event   = "event"
+	Profile = "profile"
 
 	// ContentType ...
 	ContentType = "Content-Type"

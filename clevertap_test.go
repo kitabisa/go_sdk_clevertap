@@ -24,6 +24,7 @@ var okResponse = make([]string, 0)
 var unauthorizedResponse = make([]string, 0)
 var nonJSONResponse = make([]string, 0)
 var eventData = make(map[string]interface{})
+var profileData = make(map[string]interface{})
 
 func init() {
 	ok := [...]string{
@@ -65,6 +66,9 @@ func init() {
 	eventData["full_name"] = "Test Name1"
 	eventData["user_id_type"] = "email"
 	eventData["social_media_id"] = "11111"
+
+	profileData["name"] = "Test Name"
+	profileData["email"] = "email@example.com"
 }
 
 func setCleverTapBuild(httpClient *http.Client) BuildClevertap {
@@ -146,6 +150,69 @@ func BenchmarkSendEvent(b *testing.B) {
 	for n := 0; n < b.N; n++ {
 		cleverTapResponse := &Response{}
 		_ = cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse)
+	}
+}
+
+func TestSendProfile(t *testing.T) {
+	handler := anyHandler(okResponse, 200)
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	if err := cleverTap.SendProfile(testIdentity, profileData); err != nil {
+		t.Errorf("Fail [%v]", err)
+	} else {
+		t.Log("ok")
+	}
+}
+
+func TestSendProfileUnauthorized(t *testing.T) {
+	handler := anyHandler(unauthorizedResponse, 401)
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	if err := cleverTap.SendProfile(testIdentity, profileData); err != nil {
+		t.Errorf("Fail Got error : [%v]", err)
+	} else {
+		t.Log("ok")
+	}
+}
+
+func TestSendProfileGotNonJsonResponse(t *testing.T) {
+	handler := anyHandler(nonJSONResponse, 500)
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	if err := cleverTap.SendProfile(testIdentity, profileData); err != nil {
+		t.Logf("ok, Expected Error [%v]", err)
+	} else {
+		t.Error("Fail, Expected error not found")
+	}
+}
+
+func TestSendProfileErrorTimeout(t *testing.T) {
+	handler := timeoutHandler()
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	if err := cleverTap.SendProfile(testIdentity, profileData); err != nil {
+		t.Logf("ok, Expected Error [%v]", err)
+	} else {
+		t.Error("Fail, Expected error not found")
+	}
+}
+
+func BenchmarkSendProfile(b *testing.B) {
+	handler := anyHandler(okResponse, 200)
+	httpClient, teardown := testingHTTPClient(handler)
+	defer teardown()
+	cleverTap := setCleverTapBuild(httpClient)
+
+	for n := 0; n < b.N; n++ {
+		_ = cleverTap.SendProfile(testIdentity, profileData)
 	}
 }
 

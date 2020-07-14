@@ -28,3 +28,10 @@ type Response struct {
 	Processed   int           `json:"processed"`
 	Unprocessed []interface{} `json:"unprocessed"`
 }
+
+type SendProfileRequest struct {
+	Identity    string                 `json:"identity"`
+	Type        string                 `json:"type"`
+	Timestamp   int64                  `json:"ts"`
+	ProfileData map[string]interface{} `json:"profileData"`
+}
