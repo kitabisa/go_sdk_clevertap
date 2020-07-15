@@ -44,6 +44,28 @@ func (c *Service) SendEvent(identity string, evtName string, evtData map[string]
 	return nil
 }
 
+func (c *Service) SendProfile(identity string, profileData map[string]interface{}) error {
+	sendProfileReq := []SendProfileRequest{
+		{
+			Identity:    identity,
+			Type:        Profile,
+			Timestamp:   time.Now().Unix(),
+			ProfileData: profileData,
+		},
+	}
+
+	payload := make(map[string]interface{})
+	payload["d"] = sendProfileReq
+
+	if req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload); err != nil {
+		return err
+	} else if _, err = c.do(req, nil); err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (c *Service) newRequest(method, path string, body interface{}) (*http.Request, error) {
 	rel := &url.URL{Path: path}
 	u := c.cO.baseURL.ResolveReference(rel)
