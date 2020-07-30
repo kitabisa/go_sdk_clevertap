@@ -46,7 +46,7 @@ func (c *Service) SendEvent(identity string, evtName string, evtData map[string]
 		return err
 	}
 
-	if resp.StatusCode < 200 && resp.StatusCode > 299 {
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return errors.New("non 200 response")
 	}
 
@@ -76,7 +76,7 @@ func (c *Service) SendProfile(identity string, profileData map[string]interface{
 		return err
 	}
 
-	if resp.StatusCode < 200 && resp.StatusCode > 299 {
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
 		return errors.New("non 200 response")
 	}
 

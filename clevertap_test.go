@@ -107,9 +107,9 @@ func TestSendEventUnauthorized(t *testing.T) {
 	cleverTapResponse := &Response{}
 
 	if err := cleverTap.SendEvent(testIdentity, testEventName, eventData, cleverTapResponse); err != nil || cleverTapResponse.Status != "fail" {
-		t.Errorf("Fail Got error : [%v] or status : [%s]", err, cleverTapResponse.Status)
-	} else {
 		t.Log("ok")
+	} else {
+		t.Errorf("Expect Got error : [%s]", "non 200 response")
 	}
 }
 
@@ -173,9 +173,9 @@ func TestSendProfileUnauthorized(t *testing.T) {
 	cleverTap := setCleverTapBuild(httpClient)
 
 	if err := cleverTap.SendProfile(testIdentity, profileData); err != nil {
-		t.Errorf("Fail Got error : [%v]", err)
-	} else {
 		t.Log("ok")
+	} else {
+		t.Errorf("Expect Got error : [%s]", "non 200 response")
 	}
 }
 
