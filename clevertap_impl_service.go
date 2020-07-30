@@ -3,6 +3,7 @@ package clevertap
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -35,10 +36,18 @@ func (c *Service) SendEvent(identity string, evtName string, evtData map[string]
 	payload := make(map[string]interface{})
 	payload["d"] = sendEventReq
 
-	if req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload); err != nil {
+	req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload)
+	if err != nil {
 		return err
-	} else if _, err = c.do(req, responseInterface); err != nil {
+	}
+
+	resp, err := c.do(req, nil)
+	if err != nil {
 		return err
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		return errors.New("non 200 response")
 	}
 
 	return nil
@@ -57,10 +66,18 @@ func (c *Service) SendProfile(identity string, profileData map[string]interface{
 	payload := make(map[string]interface{})
 	payload["d"] = sendProfileReq
 
-	if req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload); err != nil {
+	req, err := c.newRequest(http.MethodPost, ClevertapSendEventURL, payload)
+	if err != nil {
 		return err
-	} else if _, err = c.do(req, nil); err != nil {
+	}
+
+	resp, err := c.do(req, nil)
+	if err != nil {
 		return err
+	}
+
+	if resp.StatusCode < 200 || resp.StatusCode > 299 {
+		return errors.New("non 200 response")
 	}
 
 	return nil
